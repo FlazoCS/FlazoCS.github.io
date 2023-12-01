@@ -3,10 +3,12 @@
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
+define e = Character("Eileen")
+define w = Character("Xilun")
 
-
-# define mc = Character("Resident")
-define mc = Character("You")
+define relationship_value = 50
+define skip_points = 3
+define config.menu_include_disabled = True
 # The game starts here.
 
 label start:
@@ -15,66 +17,134 @@ label start:
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
 
-    # scene bg void
+    scene bg room
 
-    scene bg corridor
+    "you move in"
+    "Loud Noises"
+    menu:
+        "you ignore":
+            $ skip_points -= 1
+            jump scenario2
+        "you confront":
+            jump scenario1
+    #第一幕
+    label scenario1:
+        menu:
+            "you report the noise to building management":
+                $ relationship_value = 0
+                jump scenario2
+            "leave a friendly note":
+                $ random_num = renpy.random.random()
+                if random_num<0.5:
+                    jump scenario1_win
+                else:
+                    jump scenario1_lose
+            "you knock on the door":
+                $ relationship_value == relationship_value
+        "knock is ignored"
+        menu:
+            "bang on the door":
+                $ relationship_value -= 10
+            "try knocking again":
+                $ relationship_value == relationship_value
+        "neighbour opens door"
+        menu:
+            "demand":
+                "neighbour annoyed"
+                $ relationship_value -= 10
+                jump scenario2
+            "politely":
+                "neighbour apologize"
+                $ relationship_value += 10
+                jump scenario2
+    label scenario1_win:
+        "neighbour apologize[random_num]"
+        $ relationship_value += 10
+        jump scenario2
+    label scenario1_lose:
+        "neighbour didnt see[random_num]"
+        jump scenario2
+    #第二幕
+    label scenario2:
+        "loud noise again"
+        "community gathering"
+        menu:
+            "do not go":
+                $ skip_points -=1
+                jump scenario3
+            "go":
+                jump community
+            "forcefully end":
+                "neighbour annoyed"
+                $ relationship_value -=20
+                jump scenario3
+        label community:
+            menu:
+                "help":
+                    "appreciate"
+                    $ relationship_value += 20
+                    jump scenario3
+                "talk" if relationship_value >= 60:
+                    "convince"
+                    jump scenario3
+    #第三幕
+    label scenario3:
+        "new furniture came in"
+        "moving furniture around"
+        "you hear knock on the door"
+        menu:
+            "you ignore":
+                $ relationship_value -= 20
+                jump scenario4
+            "answer the door"
+            "neighbour ask about your noise":
+                menu:
+                    "you apologize and explain why":
+                        $ relationship_value += 10
+                        if relationship_value >= 80:
+                            jump offer_help
+                        elif 30 < relationship_value < 80:
+                            "neighbour says they understand"
+                            menu:
+                                "continue moving":
+                                    jump scenario4
+                                "implement method to lower noise":
+                                    jump  scenario4
+                        else:
+                            "neighbour ask you to lower your noise"
+                            menu:
+                                "implement method":
+                                    $ relationship_value +=10
+                                    jump scenario4
+                                "ignore demand":
+                                    $ relationship_value -= 10
+                                    jump scenario4
+                    "tell them step out":
+                        $ relationship_value -= 10
+    label offer_help:
+        "neighbour offer help you moving furnitures"
+        jump scenario4
+    #第四幕
+    label scenario4:
+        "studying"
+        "hearing lot of noise, difficult to focus"
+        menu:
+            "do not investigate":
+                $ skip_points -= 1
+                if skip_points <= 0:
+                    return
+                else:
+                    jump scenario5
+            "investigate noises":
+                "found children gathering at lobby"
+                
+
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
-
-    # show ow
-    show office worker
-    # These display lines of dialogue.
-
-    "You are a resident of Block 000, and you have been hearing a lot of noise recently."
-
-    "Resident" "Wow it's so noisy."
-
-    mc "Wonder what's going on?"
-
-    # "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent iaculis, dolor ac pulvinar facilisis, ex diam vehicula ex, ac pharetra neque dolor a nunc. Quisque ultrices mi sit amet dignissim euismod. Aenean bibendum ante sapien, et consectetur nibh venenatis ac."
-#     "Nam volutpat quis risus ut fringilla. Pellentesque tempus diam nibh, non mattis lacus pharetra a. Praesent dignissim pharetra ex. Aliquam vehicula risus eget risus elementum, sed accumsan quam mollis."
-#     "Quisque sollicitudin, nulla nec ultrices hendrerit, libero neque facilisis lorem, id commodo mi mi in risus. Phasellus id arcu ac magna mattis dictum in in mauris. Duis consectetur a tortor quis consectetur. Nunc venenatis scelerisque semper."
-#     "Donec fringilla sem in risus luctus, vel luctus nulla ultricies. Ut risus risus, volutpat sed tortor ac, volutpat semper erat. Proin sollicitudin quam nulla, ac finibus purus gravida non. Sed non posuere tortor."
-#     "Sed porttitor dui ac mollis scelerisque. Vivamus rhoncus pretium quam, vel tincidunt mi ultrices a. Donec at mattis nulla. Mauris sed suscipit leo. Proin lobortis nunc euismod scelerisque faucibus. Aliquam porta mollis nisi, sed suscipit ante tincidunt vitae."
-#
-# menu:
-#
-#     "Option 1":
-#         jump choice_1_1
-#
-#     "Option 2":
-#         jump choice_1_2
-#
-# label choice_1_1:
-#
-#     $ menu_flag = True
-#
-#     mc "You chose option 1."
-#
-#     jump choice_1_finish
-#
-# label choice_1_2:
-#
-#     $ menu_flag = False
-#
-#     mc "You chose option 2."
-#
-#     jump choice_1_finish
-#
-#     #options merge here
-# label choice_1_finish:
-#
-#     "You chose something in choice 1"
-
+   
+        
     # This ends the game.
-label end:
-
-    scene bg endscreen
-    with Dissolve(.5)
-    "End of current code. Exiting..."
-
-
 
     return
