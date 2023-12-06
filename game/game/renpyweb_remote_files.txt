@@ -1,13 +1,47 @@
+audio/Ludum Dare 38 - Track 10.wav
+music -
+audio/Ludum Dare 38 - Track 5.wav
+music -
+audio/Ludum Dare 38 - Track 6.wav
+music -
+audio/Ludum Dare 38 - Track 7.wav
+music -
+audio/Ludum Dare 38 - Track 8.wav
+music -
+audio/Ludum Dare 38 - Track 9.wav
+music -
+audio/LudumDare38Track1.wav
+music -
+audio/LudumDare38Track2.wav
+music -
+audio/LudumDare38Track3.wav
+music -
+audio/LudumDare38Track4.wav
+music -
+audio/door-bang-1wav-14449.mp3
+music -
+audio/knocking-on-door-6022.mp3
+music -
 images/HDB Overview.jpg
 image 1920,1272
 images/HDB Overview.png
 image 1920,1272
 images/HDB Title Screen.png
 image 2497,1570
-images/bg corridor.png
-image 1920,1441
+images/Susan_angry.png
+image 1280,720
+images/Susan_default.png
+image 1280,720
+images/Susan_happy.png
+image 1280,720
+images/Susan_sad.png
+image 1280,720
+images/Susan_unhappy.png
+image 1280,720
 images/bg endscreen.png
 image 1920,1081
+images/bg room.png
+image 1920,1441
 images/bg void.png
 image 1920,1080
 images/office worker.png
